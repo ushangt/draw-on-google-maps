@@ -1,0 +1,63 @@
+<head>
+    <title>Draw on Google Maps Demo</title>
+    <script type="text/javascript" src="http://www.scribblemaps.com/api/js/">
+        /* Scribble Maps supports Google, Bing, Mapquest, Leaflet, 
+        Nokia (here), and ArcGis */
+    </script>
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin:0;
+        }
+        .sm_footer{
+            display: none !important;
+            background: black !important;
+        }
+    </style>
+    <script type="text/javascript">
+        var sm;
+	var options = { 
+        			startMapType: 'ROADMAP',
+        			startCenter: [21.1498,79.0806],
+        			startZoom: 5
+		      };	
+        window.onload = function () {
+            sm = new ScribbleMap("ScribbleMap",options);
+            sm.ui.setAvailableTools(["edit", "drag", "eraser", "fill",
+                "scribble"]);
+
+            //Adjust sizes
+            var c = scribblemaps.ControlType;
+            sm.ui.styleControl(c.SEARCH, { width: "340px" });
+            sm.ui.styleControl(c.LINE_SETTINGS, { left: "360px" });
+            sm.ui.styleControl(c.LINE_COLOR, { left: "360px" });
+            sm.ui.styleControl(c.FILL_COLOR, { left: "420px" });
+    	    sm.ui.styleControl(scribblemaps.ControlType.SEARCH, {"display" : "none"});
+    	    sm.ui.styleControl(scribblemaps.ControlType.LINE_SETTINGS, {"display" : "none"});
+    	    sm.ui.styleControl(scribblemaps.ControlType.LINE_COLOR, {"left" : "10px"});
+    	    sm.ui.styleControl(scribblemaps.ControlType.FILL_COLOR, {"left" : "80px"});
+        };
+    </script>
+</head>
+<body>
+    <div id="ScribbleMap" style="width: 100%; height: 80%"></div>  
+    <button id="getJSONButton" onclick="getGeoJSON()"> Save </button>
+    <div id="geo_cords"></div>
+</body>
+<script>
+	function getGeoJSON()
+	{	
+        console.log(sm.data.getGeoJSON());
+		var geo_json = sm.data.getGeoJSON();
+        var appendString = "";
+        for(var i =0;i<geo_json.features[0].geometry.coordinates.length;i++)
+        {
+            appendString += geo_json.features[0].geometry.coordinates[i][0]+ " , " +geo_json.features[0].geometry.coordinates[i][1]+ "<br>";
+        }
+		document.getElementById("geo_cords").innerHTML = appendString;		
+	}
+</script>
+
+<!-- JwbCuB1z1A -->
